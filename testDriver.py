@@ -1,4 +1,5 @@
 import numpy as np
+import sympy as sp
 
 def calculate_mean(vector):
     # Calculate the mean (average) of a vector
@@ -18,8 +19,17 @@ def calculate_std_deviation(vector):
     std_deviation = np.sqrt(variance)      # Standard deviation is the square root of variance
     return std_deviation
 
-# Example usage
-vector_example = np.array([1, 2, 3, 4, 5])
-print("Mean:", calculate_mean(vector_example))
-print("Variance:", calculate_variance(vector_example))
-print("Standard Deviation:", calculate_std_deviation(vector_example))
+# Define the x points
+x_points = np.array(range(4, 15))  # This will create an array with integers from 4 to 14
+
+print("Mean:", calculate_mean(x_points))
+print("Variance:", calculate_variance(x_points))
+print("Standard Deviation:", calculate_std_deviation(x_points))
+print("Example Vector Used: ", x_points)
+
+
+# Initialize y values as 'None' or 'np.nan'
+y_values = np.full(x_points.shape, np.nan)  # This creates an array of the same shape as x_points, but filled with np.nan
+
+print("X Points:", x_points)
+print("Y Values:", y_values)
