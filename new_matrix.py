@@ -7,12 +7,14 @@ n = 11.0
 variance = 33/8
 slope = 1/2
 
-##
-##
 # stage 1
 
-x = np.arange(4, 15)  # x values from 4 to 15
-M = np.column_stack((x**2, x, np.ones(len(x))))
+x = np.arange(4, 15)  # x values from 4 to 14
+#M = np.column_stack((x, 1, 0))
+x = np.array([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+vec_test = np.array([0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0])
+
+M = np.column_stack((x, np.ones(len(x)), vec_test))
 
 a, b, c = sp.symbols('a b c')
 
