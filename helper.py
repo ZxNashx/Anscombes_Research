@@ -48,3 +48,7 @@ def solve_quadratic(equation):
         real_part = -b / (2*a)
         imaginary_part = math.sqrt(-discriminant) / (2*a)
         return (real_part + imaginary_part * 1j, real_part - imaginary_part * 1j)
+
+
+
+
