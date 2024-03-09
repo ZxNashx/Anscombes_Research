@@ -2,6 +2,8 @@ import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
 
+# working file
+
 ybar = 7.5
 n = 11.0
 variance = 33/8
