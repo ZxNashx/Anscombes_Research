@@ -89,14 +89,22 @@ plt.figure(figsize=(6, 4))
 
 y_line_values = line_equation(x_line_values)
 plt.plot(x_line_values, y_line_values, label='y = b1x + b0')
+i = 0
+
+titles = [
+    "Anscombe's Parabola",
+    "Second Parabola"
+]
 
 for s in solution_final:
     a, b, c = s
-    add_parabola_to_plot(a, b, c, x_parabola_values, 'Parabola')
+    add_parabola_to_plot(a, b, c, x_parabola_values, titles[i])
+    i = i + 1
 
 plt.xlabel('x')
 plt.ylabel('y')
 plt.legend()
+plt.title("Two Parabolas Sharing Common Values", fontsize=20)
 plt.show()
 
 
