@@ -37,25 +37,19 @@ print(equation1)
 
 #stage 2.2
 modified_vector = result - ybar * ones_vector
-
 modified_dot_product = modified_vector.dot(modified_vector)
-
 equation2 = sp.Eq(modified_dot_product, (n-1) * variance)
-
 solution2 = sp.solve(equation2, (a, b, c))
 print("\n\nTHE RESULTING VECTOR 2.2")
 print(equation2)
 
 # stage 2.3
 
-x_vector = sp.Matrix([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+x_vector = sp.Matrix(np.arange(4, n+4) )
 modified_x_vector = x_vector - 9 * ones_vector
 modified_result_vector = result - ybar * ones_vector
 equation3 = sp.Eq(modified_x_vector.dot(modified_result_vector), (n-1) * n * slope)
-
-# Create a vector of ones
 ones_vector = sp.ones(len(x_vector), 1)
-
 solution3 = sp.solve(equation3, (a, b, c))
 print("\n\nTHE RESULTING VECTOR 2.3")
 print(equation3)
