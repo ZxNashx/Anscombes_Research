@@ -2,17 +2,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 from GenerateGraph import GraphBuilder as gb
 from math import sin, cos
+
 # Initialize the GraphBuilder
 builder = gb()
 
 # Define the function behaviors
 def f(x):
-    return x ** 2
 
+    if x > 8:
+        return x ** 4
+    else:
+        return x
 def g(x):
-    return x
+    return x # + C
+
+
 def h(x):
-    return 1
+    return 0
+
 
 # Use these functions to generate the matrix and solve for coefficients
 print(builder.generate_M_matrix(f, g, h))
