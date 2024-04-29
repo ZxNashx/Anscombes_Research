@@ -1,17 +1,12 @@
 import numpy as np
 import sympy as sp
+import random
 
-def is_fun_zero(fx):
-    s = 0
-    for i in range(-10,10):
-        s += abs(fx(i))
-    if s == 0:
-        return True
-    else:
-        return False
-
+def is_fun_zero(fx, x_values):
+    # Improved check to see if the function is zero over a specific range
+    return all(fx(x) == 0 for x in x_values)
 class GraphBuilder():
-    def __init__(self, ybar = 7.5, n = 11, variance = 33/8, slope = 1/2, intercept = 3, start_value = 4):
+    def __init__(self, ybar=7.5, n=11, variance=33/8, slope=1/2, intercept=3, start_value=4):
         self.ybar = ybar
         self.n = n
         self.variance = variance
@@ -20,67 +15,50 @@ class GraphBuilder():
         self.start_value = start_value
 
         self.a, self.b, self.c = sp.symbols('a b c')
-        self.h_zero = False
-        self.g_zero = False
-        self.f_zero = False
-
 
     def generate_M_matrix(self, fx, gx, hx):
-        if is_fun_zero(fx):
-            self.f_zero = True
-        else:
-            self.f_zero = False
-        if is_fun_zero(gx):
-            self.g_zero = True
-        else:
-            self.g_zero = False
-        if is_fun_zero(hx):
-            self.h_zero = True
-        else:
-            self.h_zero = False
+        x = np.arange(self.start_value, self.start_value + self.n)
+        M = []
+        functions = [fx, gx, hx]
+        active_vars = []
+        # Populate the matrix and track active variables
+        for func, var in zip(functions, [self.a, self.b, self.c]):
+            if not is_fun_zero(func, x):  # Check if function is zero over the range
+                M.append([func(xi) for xi in x])
+                active_vars.append(var)
 
-        # Generate the array x
-        x = np.arange(self.start_value, self.n + self.start_value)
+        if not M:  # If all functions are zero
+            raise ValueError("All input functions are zero; no valid matrix can be generated.")
 
-        # Initialize an empty matrix to store results
-        M = np.zeros((len(x), 3))  # Create a matrix of zeros with appropriate dimensions
-
-        # Apply the functions fx, gx, hx to each element of x individually
-        for i, xi in enumerate(x):
-            M[i, 0] = fx(xi)  # Apply fx to each element and assign to the first column
-            M[i, 1] = gx(xi)  # Apply gx to each element and assign to the second column
-            M[i, 2] = hx(xi)  # Apply hx to each element and assign to the third column
-
-        vector = sp.Matrix([self.a, self.b, self.c])
-
-        self.result = sp.Matrix(M) * vector
-        return self.result
+        M = sp.Matrix(M).T  # Transpose to correct the orientation
+        vector = sp.Matrix(active_vars)
+        self.result = M * vector
+        return self.result, active_vars
 
     def solve(self):
         ones_vector = sp.ones(self.result.shape[0], 1)
         equation1 = sp.Eq(self.result.dot(ones_vector), self.n * self.ybar)
-
         modified_vector = self.result - self.ybar * ones_vector
         modified_dot_product = modified_vector.dot(modified_vector)
         equation2 = sp.Eq(modified_dot_product, (self.n - 1) * self.variance)
-
         x_vector = sp.Matrix(np.arange(self.start_value, self.n + self.start_value))
-        modified_x_vector = x_vector - 9 * ones_vector  # Note: '9' should be defined or explained
+        modified_x_vector = x_vector - self.n * ones_vector
         modified_result_vector = self.result - self.ybar * ones_vector
         equation3 = sp.Eq(modified_x_vector.dot(modified_result_vector), (self.n - 1) * self.n * self.slope)
 
-        if self.h_zero:
-            solutions_ab = sp.solve((equation1, equation2), (self.a, self.b))
-            if isinstance(solutions_ab, dict):  # Check if the solutions are in a dictionary
-                self.solution = [(solutions_ab[self.a], solutions_ab[self.b], 0)]
-            else:  # Handle list of tuples
-                self.solution = [(sol[0], sol[1], 0) for sol in solutions_ab]
-        else:
-            solutions_abc = sp.solve((equation1, equation2, equation3), (self.a, self.b, self.c))
-            if isinstance(solutions_abc, dict):
-                self.solution = [(solutions_abc[self.a], solutions_abc[self.b], solutions_abc[self.c])]
-            else:
-                self.solution = [(sol[0], sol[1], sol[2]) for sol in solutions_abc]
+        equations = [equation1, equation2, equation3]
+        equations = [eq for eq in equations if eq.lhs != 0]  # Exclude trivially zero equations
 
-        return self.solution
+        variables = self.result.free_symbols
+        if not variables:
+            return None  # No variables to solve for
+
+        # Attempt to solve using assumptions about the system being potentially under-determined
+        solution_set = sp.solve(equations, variables, dict=True, manual=True, simplify=False, rational=False)
+
+        if isinstance(solution_set, list) and solution_set:
+            return [{var: sol.get(var, 0) for var in [self.a, self.b, self.c]} for sol in solution_set]
+
+        else:
+            return None  # If no solutions or an error in solving
 

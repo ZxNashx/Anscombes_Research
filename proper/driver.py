@@ -1,34 +1,24 @@
 import numpy as np
+import sympy as sp
 import matplotlib.pyplot as plt
-from GenerateGraph import GraphBuilder as gb
+from GenerateGraph import GraphBuilder as GB
 from math import sin, cos
 
+#import graph
+from functions.scatter_plot import f, g, h
+
+
 # Initialize the GraphBuilder
-builder = gb()
-
-# Define the function behaviors
-def f(x):
-
-    if x > 8:
-        return x ** 4
-    else:
-        return x
-def g(x):
-    return x # + C
-
-
-def h(x):
-    return 0
-
+builder = GB()
 
 # Use these functions to generate the matrix and solve for coefficients
-print(builder.generate_M_matrix(f, g, h))
+matrix_result, active_vars = builder.generate_M_matrix(f, g, h)
+print("Matrix Result:", matrix_result)
 solution_sets = builder.solve()
-print(solution_sets)
+print("Solution Sets:", solution_sets)
 
-# Setup the range of x values for the linear function
-x_values_continuous = np.linspace(builder.start_value,  builder.start_value + builder.n, 100)  # For the linear function, use a continuous range
-# Adjusted range for solution set plotting
+# Setup the range of x values for plotting
+x_values_continuous = np.linspace(builder.start_value, builder.start_value + builder.n, 100)
 x_values_dots = np.arange(builder.start_value, builder.start_value + builder.n)
 
 # Define the simple linear function to plot alongside
@@ -39,22 +29,29 @@ def linear_function(x):
 linear_values = [linear_function(x) for x in x_values_continuous]
 
 # Create the plots
-plt.figure(figsize=(5, 4))  # Smaller, more concise figure size
-colors = ['b', 'r']  # Colors for the two solution sets
 
-for idx, (a, b, c) in enumerate(solution_sets):
-    # Compute the combined function values for each coefficient set only at whole values
-    combined_values_dots = [(f(x) * a + g(x) * b + h(x) * c) for x in x_values_dots]
+colors = ['b', 'r']  # Ensure you have enough colors for the number of solutions
+fig, axs = plt.subplots(1, 2, figsize=(10, 4))  # Two subplots side by side
 
-    # Plot the combined function for each solution set as dots at whole numbers
-    plt.plot(x_values_dots, combined_values_dots, 'o', label=f'Set {idx+1}: a={a:.2f}, b={b:.2f}, c={c:.2f}', color=colors[idx], markersize=5)
+if solution_sets:
+    for idx, (ax, solution) in enumerate(zip(axs, solution_sets)):
+        # Evaluate and convert to complex numbers properly
+        a = complex(sp.N(solution[builder.a]))  # Evaluate and convert
+        b = complex(sp.N(solution[builder.b]))
+        c = complex(sp.N(solution[builder.c]))
 
-# Plot the simple linear function as a continuous line
-plt.plot(x_values_continuous, linear_values, label='Linear Function', linestyle='-', color='k')
+        # Format numbers, handling real and imaginary parts
+        label_a = f"{a.real:.2f} + {a.imag:.2f}i"
+        label_b = f"{b.real:.2f} + {b.imag:.2f}i"
+        label_c = f"{c.real:.2f} + {c.imag:.2f}i"
 
-plt.title('Graphs (%s)' % (len(solution_sets)))
-plt.xlabel('x')
-plt.ylabel('Function values')
-plt.legend()
-plt.grid(True)
+        combined_values_dots = [(f(x) * a.real + g(x) * b.real + h(x) * c.real) for x in x_values_dots]  # Use real parts for calculations
+        ax.plot(x_values_dots, combined_values_dots, 'o', label=f'Set {idx+1}: a={label_a}, b={label_b}, c={label_c}', color=colors[idx], markersize=10)
+        ax.plot(x_values_continuous, linear_values, label='Linear Function', linestyle='-', color='k')
+        ax.set_title(f'Set {idx+1}')
+        ax.set_xlabel('x')
+        ax.set_ylabel('Function values')
+        ax.legend()
+        ax.grid(True)
+
 plt.show()
