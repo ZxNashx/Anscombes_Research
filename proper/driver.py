@@ -5,7 +5,7 @@ from GenerateGraph import GraphBuilder as GB
 from math import sin, cos
 
 #import graph
-from functions.scatter_plot import f, g, h
+from functions.wave import f, g, h
 
 
 # Initialize the GraphBuilder
