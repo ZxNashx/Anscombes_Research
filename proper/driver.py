@@ -1,3 +1,4 @@
+# Imports
 import numpy as np
 import sympy as sp
 import matplotlib.pyplot as plt
@@ -5,14 +6,18 @@ from GenerateGraph import GraphBuilder as GB
 from math import sin, cos
 from scipy.stats import linregress
 
-from functions.quadratic import f, g, h
 
-# Initialize the GraphBuilder
+# Editable Code
 builder = GB()
-
+from functions.quadratic import f, g, h
 SHOW_VALUES = False
+LOWEST_VALUE = 0
+HIGHEST_VALUE = 100
+
+##################################
+# non-editable --v
 # Setup the range of x values for plotting
-x_values_continuous = np.linspace(0, 100, 100)
+x_values_continuous = np.linspace(LOWEST_VALUE, HIGHEST_VALUE, 100)
 x_values_dots = np.arange(builder.start_value, builder.start_value + builder.n)
 
 # Use these functions to generate the matrix and solve for coefficients
