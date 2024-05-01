@@ -1,12 +1,15 @@
-
+from math import sin, cos, tan
 
 def f(x):
-    return ...
+    return 2 ** x
+
+
+# 2 ** x
 
 def g(x):
-    return ...
+    return x
 
 def h(x):
-    return ...
+    return 1
 
 # f(x) + g(x) + h(x)

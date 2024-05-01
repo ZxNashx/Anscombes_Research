@@ -9,8 +9,8 @@ from scipy.stats import linregress
 
 # Editable Code
 builder = GB()
-from functions.quadratic import f, g, h
-SHOW_VALUES = False
+from functions.dar import f, g, h
+SHOW_VALUES = True
 LOWEST_VALUE = 0
 HIGHEST_VALUE = 100
 
