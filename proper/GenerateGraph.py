@@ -6,7 +6,14 @@ def is_fun_zero(fx, x_values):
     # Improved check to see if the function is zero over a specific range
     return all(fx(x) == 0 for x in x_values)
 class GraphBuilder():
-    def __init__(self, ybar=7.5, n=11, variance=33/8, slope=1/2, intercept=3, start_value=4):
+    def __init__(self,
+                 ybar=7.5,
+                 n=11,
+                 variance=33/8,
+                 slope=1/2,
+                 intercept=3,
+                 start_value=4
+                 ):
         self.ybar = ybar
         self.n = n
         self.variance = variance
@@ -35,14 +42,16 @@ class GraphBuilder():
         self.result = M * vector
         return self.result, active_vars
 
-    def solve(self):
+    def solve(self, mean_x):
         ones_vector = sp.ones(self.result.shape[0], 1)
         equation1 = sp.Eq(self.result.dot(ones_vector), self.n * self.ybar)
+
         modified_vector = self.result - self.ybar * ones_vector
         modified_dot_product = modified_vector.dot(modified_vector)
         equation2 = sp.Eq(modified_dot_product, (self.n - 1) * self.variance)
+
         x_vector = sp.Matrix(np.arange(self.start_value, self.n + self.start_value))
-        modified_x_vector = x_vector - self.n * ones_vector
+        modified_x_vector = x_vector - mean_x * ones_vector
         modified_result_vector = self.result - self.ybar * ones_vector
         equation3 = sp.Eq(modified_x_vector.dot(modified_result_vector), (self.n - 1) * self.n * self.slope)
 

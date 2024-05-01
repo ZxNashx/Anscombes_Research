@@ -1,6 +1,6 @@
 from math import sin, cos, tan
 def f(x):
-    return tan(x)
+    return sin(x)
 def g(x):
     return x
 
