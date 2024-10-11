@@ -3,3 +3,6 @@ This program is designed to generate and analyze synthetic data sets that replic
 
 
 [readme WIP]
+
+Presentation:
+https://github.com/ZxNashx/Anscombes_Research/blob/main/AMD%20Math%20Presentation.pdf 
