@@ -10,6 +10,7 @@ This project aims to generate and analyze synthetic datasets that replicate the 
 - [Project Structure](#project-structure)
 - [Usage Example](#usage-example)
 - [Function Declaration Example](#function-declaration-example)
+- [Poster Presentation](#poster-presentation)
 - [Additional Resources](#additional-resources)
 
 ---
@@ -94,9 +95,11 @@ Where the constants \(a\), \(b\), and \(c\) are solved to match the datasets in 
 
 ---
 
-## Additional Resources
+## Poster Presentation
+![Anscombes Poster](https://github.com/ZxNashx/Anscombes_Research/blob/main/Anscombe%20Poster%20Presentation.svg)
 
-- **Anscombe's Quartet Research Paper**: [Graphs in Statistical Analysis](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
+## Additional Resources
+- **Anscombe's Quartet Research Paper**: [Graphs in Statistical Analysis](https://www.sjsu.edu/faculty/gerstman/StatPrimer/anscombe1973.pdf)
 - **Anscombe's Quartet Presentation**: [AMD Presentation](https://github.com/ZxNashx/Anscombes_Research/blob/main/AMD%20Math%20Presentation.pdf)
 
 
