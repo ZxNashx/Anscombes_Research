@@ -5,6 +5,7 @@ import random
 def is_fun_zero(fx, x_values):
     # Improved check to see if the function is zero over a specific range
     return all(fx(x) == 0 for x in x_values)
+
 class GraphBuilder():
     def __init__(self,
                  ybar=7.5,
@@ -70,4 +71,3 @@ class GraphBuilder():
 
         else:
             return None  # If no solutions or an error in solving
-

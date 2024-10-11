@@ -1,10 +1,10 @@
 
-from math import cos, tan
+from math import cos, tan, e
 def f(x):
-    return cos(x)
+    return x * (x + 1)
 
 def g(x):
-    return tan(x)
+    return x
 
 def h(x):
-    return x ** 3
+    return 1
