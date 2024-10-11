@@ -97,7 +97,7 @@ Where the constants \(a\), \(b\), and \(c\) are solved to match the datasets in 
 ## Additional Resources
 
 - **Anscombe's Quartet Research Paper**: [Graphs in Statistical Analysis](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
-- **Anscombe's Quartet Presentation**: [AMD Presentation](AMD_Math_Presentation.pdf)
+- **Anscombe's Quartet Presentation**: [AMD Presentation]([AMD%20Math%20Presentation.pdf])
 
 
 
